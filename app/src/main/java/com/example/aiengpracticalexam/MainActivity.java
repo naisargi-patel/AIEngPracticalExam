@@ -98,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewItemC
 
         if (!Utility.isNetworkAvailable(MainActivity.this)) {
             Toast.makeText(MainActivity.this, "There is issue in the network ", Toast.LENGTH_SHORT).show();
+            progress(false);
             return;
         }
 
