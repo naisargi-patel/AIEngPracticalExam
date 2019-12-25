@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.aiengpracticalexam.helper.Utility;
 import com.example.aiengpracticalexam.models.Hit;
 
 import java.util.ArrayList;
@@ -57,7 +58,7 @@ public class HitListAdapter extends RecyclerView.Adapter<HitListAdapter.ViewHold
             switchSelection.setOnClickListener(ViewHolder.this);
 
             txtTitle.setText(hit.getTitle());
-            txtCreated.setText(hit.getCreatedAt());
+            txtCreated.setText(Utility.getFormatDate(hit.getCreatedAt()));
             switchSelection.setChecked(hit.getSelected());
         }
 

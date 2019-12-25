@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewItemC
     private HitListAdapter hitAdapter;
     private int pageNo = 1;
     private ProgressBar progressBar;
+    private ProgressBar bottomProgress;
     private ArrayList<Hit> hitArrayList = new ArrayList<Hit>();
     private SwipeRefreshLayout swipeRefresh;
     private LinearLayoutManager linearLayoutManager = null;
@@ -61,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewItemC
         recyclerView = findViewById(R.id.recyclerView);
         progressBar = findViewById(R.id.progressBar);
         swipeRefresh = findViewById(R.id.swipeRefresh);
+        bottomProgress = findViewById(R.id.bottomProgress);
 
         setAdapter();
 
@@ -87,9 +89,11 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewItemC
         } else if (pullToRefresh) {
             pageNo = 1;
             hitArrayList.clear();
+            hitAdapter.notifyDataSetChanged();
         } else {
             //Load More
             pageNo++;
+            bottomProgress.setVisibility(View.VISIBLE);
         }
 
         if (!Utility.isNetworkAvailable(MainActivity.this)) {
@@ -101,7 +105,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewItemC
 
             @Override
             public void onResponse(Call<ClsHitResponse> call, Response<ClsHitResponse> response) {
-                progress(false);
                 if (response.isSuccessful()) {
                     ClsHitResponse clsHitResponse = response.body();
                     List<Hit> hitList = clsHitResponse.getHits();
@@ -110,10 +113,10 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewItemC
                         hitAdapter.notifyDataSetChanged();
                         updateCount();
                     }
-
                 } else {
                     Toast.makeText(MainActivity.this, "Something went wrong !", Toast.LENGTH_SHORT).show();
                 }
+                progress(false);
             }
 
             @Override
@@ -133,6 +136,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewItemC
             progressBar.setVisibility(View.VISIBLE);
         } else {
             progressBar.setVisibility(View.GONE);
+            bottomProgress.setVisibility(View.GONE);
             if (swipeRefresh.isRefreshing()) {
                 swipeRefresh.setRefreshing(false);
             }

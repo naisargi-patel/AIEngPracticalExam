@@ -14,7 +14,7 @@ public class Utility {
             return "";
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss'Z'");
-        SimpleDateFormat output = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat output = new SimpleDateFormat("dd/MM/yyyy hh:mm a");
 
         try {
             return output.format(dateFormat.parse(date));
